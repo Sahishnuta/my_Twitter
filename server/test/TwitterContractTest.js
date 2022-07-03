@@ -6,8 +6,8 @@ describe("Twitter Contract", function() {
   let twitter;
   let owner;
 
-  const NUM_TOTAL_NOT_MY_TWEETS = 5;
-  const NUM_TOTAL_MY_TWEETS = 3;
+  const OTHER_USERS_TWEETS = 5;
+  const OWNER_TWEETS = 3;
 
   let totalTweets;
   let totalMyTweets;
@@ -20,7 +20,7 @@ describe("Twitter Contract", function() {
     totalTweets = [];
     totalMyTweets = [];
 
-    for(let i=0; i<NUM_TOTAL_NOT_MY_TWEETS; i++) {
+    for(let i=0; i<OTHER_USERS_TWEETS; i++) {
       let tweet = {
         'tweetText': 'Ramdon text with id:- ' + i,
         'username': addr1,
@@ -31,7 +31,7 @@ describe("Twitter Contract", function() {
       totalTweets.push(tweet);
     }
 
-    for(let i=0; i<NUM_TOTAL_MY_TWEETS; i++) {
+    for(let i=0; i<OWNER_TWEETS; i++) {
       let tweet = {
         'username': owner,
         'tweetText': 'Ramdon text with id:- ' + (NUM_TOTAL_NOT_MY_TWEETS+i),
@@ -52,19 +52,19 @@ describe("Twitter Contract", function() {
       };
 
       await expect(await twitter.addTweet(tweet.tweetText, tweet.isDeleted)
-    ).to.emit(twitter, 'AddTweet').withArgs(owner.address, NUM_TOTAL_NOT_MY_TWEETS + NUM_TOTAL_MY_TWEETS);
+    ).to.emit(twitter, 'AddTweet').withArgs(owner.address, OTHER_USERS_TWEETS + OWNER_TWEETS);
     })
   });
 
   describe("Get All Tweets", function() {
     it("should return the correct number of total tweets", async function() {
       const tweetsFromChain = await twitter.getAllTweets();
-      expect(tweetsFromChain.length).to.equal(NUM_TOTAL_NOT_MY_TWEETS+NUM_TOTAL_MY_TWEETS);
+      expect(tweetsFromChain.length).to.equal(OTHER_USERS_TWEETS+OWNER_TWEETS);
     })
 
     it("should return the correct number of all my tweets", async function() {
       const myTweetsFromChain = await twitter.getMyTweets();
-      expect(myTweetsFromChain.length).to.equal(NUM_TOTAL_MY_TWEETS);
+      expect(myTweetsFromChain.length).to.equal(OWNER_TWEETS);
     })
   })
 
@@ -82,4 +82,20 @@ describe("Twitter Contract", function() {
       );
     })
   })
+
+  describe('Update Tweet', () => {
+    it('should emit UpdateTweet event', async () => {
+      const TWEET_ID = 26; 
+      const TWEET_NEW_TEXT = 'new tweet text';
+      const TWEET_DELETED = false;
+
+      await expect(
+        await twitter
+          .connect(addr1)
+          .updateTweet(TWEET_ID, TWEET_NEW_TEXT, TWEET_DELETED)
+      )
+        .to.emit(twitter, 'UpdateTweet')
+        .withArgs(owner.address, TWEET_ID, TWEET_DELETED);
+    });
+  });
 });
