@@ -1,3 +1,5 @@
+const {ethers} = require("hardhat");
+
 const main = async() => {
     const contractFactory = await ethers.getContractFactory('TwitterContract');
     const contract = await contractFactory.deploy();
