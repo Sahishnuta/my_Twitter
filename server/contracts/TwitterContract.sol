@@ -6,7 +6,7 @@ contract TwitterContract {
 
     event AddTweet(address recipient, uint tweetId);
     event DeleteTweet(uint tweetId, bool isDeleted);
-    
+    event UpdateTweet(address recipient, uint tweetId, bool isDeleted);
 
     struct Tweet {
         uint id;
