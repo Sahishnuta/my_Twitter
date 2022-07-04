@@ -34,7 +34,7 @@ describe("Twitter Contract", function() {
     for(let i=0; i<OWNER_TWEETS; i++) {
       let tweet = {
         'username': owner,
-        'tweetText': 'Ramdon text with id:- ' + (NUM_TOTAL_NOT_MY_TWEETS+i),
+        'tweetText': 'Ramdon text with id:- ' + (OTHER_USERS_TWEETS+i),
         'isDeleted': false
       };
 
