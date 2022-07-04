@@ -5,7 +5,6 @@ Raviteja Naraharisetti,Sahishnuta Tosh,Anand Puthiyapurayil
 
 #References
 https://youtu.be/AUzPYEYlFyk
-https://www.youtube.com/watch?v=NhZDtKaMSAU
 https://moralis.io/2022-guide-to-building-a-decentralized-twitter/
 
              
