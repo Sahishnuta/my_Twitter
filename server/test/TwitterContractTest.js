@@ -34,7 +34,7 @@ describe("Twitter Contract", function() {
     for(let i=0; i<OWNER_TWEETS; i++) {
       let tweet = {
         'username': owner,
-        'tweetText': 'Ramdon text with id:- ' + (NUM_TOTAL_NOT_MY_TWEETS+i),
+        'tweetText': 'Ramdon text with id:- ' + (OTHER_USERS_TWEETS+i),
         'isDeleted': false
       };
 
@@ -62,10 +62,10 @@ describe("Twitter Contract", function() {
       expect(tweetsFromChain.length).to.equal(OTHER_USERS_TWEETS+OWNER_TWEETS);
     })
 
-    it("should return the correct number of all my tweets", async function() {
-      const myTweetsFromChain = await twitter.getMyTweets();
-      expect(myTweetsFromChain.length).to.equal(OWNER_TWEETS);
-    })
+    // it("should return the correct number of all my tweets", async function() {
+    //   const myTweetsFromChain = await twitter.getMyTweets();
+    //   expect(myTweetsFromChain.length).to.equal(OWNER_TWEETS);
+    // })
   })
 
   describe("Delete Tweet", function() {
@@ -83,19 +83,5 @@ describe("Twitter Contract", function() {
     })
   })
 
-  describe('Update Tweet', () => {
-    it('should emit UpdateTweet event', async () => {
-      const TWEET_ID = 26; 
-      const TWEET_NEW_TEXT = 'new tweet text';
-      const TWEET_DELETED = false;
-
-      await expect(
-        await twitter
-          .connect(addr1)
-          .updateTweet(TWEET_ID, TWEET_NEW_TEXT, TWEET_DELETED)
-      )
-        .to.emit(twitter, 'UpdateTweet')
-        .withArgs(owner.address, TWEET_ID, TWEET_DELETED);
-    });
-  });
+  
 });
